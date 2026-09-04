@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Granny's Ayurvedic Remedies</title>
+
+<style>
+
+/* 🌿 FULL PAGE CENTER */
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f4f8f4;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Wrapper for glow border */
+.chat-wrapper {
+    position: relative;
+    padding: 3px;
+    border-radius: 22px;
+}
+
+/* 🌟 Animated glowing border */
+.chat-wrapper::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 22px;
+    background: linear-gradient(
+        120deg,
+        #a5d6a7,
+        #66bb6a,
+        #2e7d32,
+        #66bb6a,
+        #a5d6a7
+    );
+    background-size: 300% 300%;
+    animation: borderGlow 4s linear infinite;
+    z-index: -1;
+}
+
+/* 🌿 Chat Container */
+.chat-container {
+    width: 420px;
+    padding: 25px;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(6px);
+    box-shadow: 0 0 25px rgba(76,175,80,0.35);
+}
+
+/* ✨ Shimmer effect */
+.chat-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -150%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent,
+        rgba(255,255,255,0.6),
+        transparent
+    );
+    animation: shimmerMove 3s infinite;
+}
+
+/* Title */
+.chat-title {
+    text-align: center;
+    font-size: 22px;
+    font-weight: 600;
+    color: #2e7d32;
+    margin-bottom: 15px;
+}
+
+/* Chat messages */
+.chat-box {
+    height: 240px;
+    overflow-y: auto;
+    border: 1px solid #e0e0e0;
+    padding: 12px;
+    border-radius: 10px;
+    background: #fafafa;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+/* Input */
+.chat-input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
+}
+
+/* Button */
+.chat-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #2e7d32;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.chat-btn:hover {
+    background: #1b5e20;
+}
+
+/* Animations */
+@keyframes shimmerMove {
+    0% { left: -150%; }
+    100% { left: 150%; }
+}
+
+@keyframes borderGlow {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+
+}
+
+.navbar {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    padding: 12px 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    z-index: 1000;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    color: #2e7d4c;
+}
+
+.nav-link.active {
+    background: #2e7d32;
+    color: white;
+}
+
+body {
+    padding-top: 100px;
+}
+
+</style>
+</head>
+
+<body>
+    <div class="navbar">
+    <div class="nav-logo">🌿 Herbal Veda</div>
+
+    <div class="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        {% comment %} <a href="/herbs/" class="nav-link">Explore Herbs</a> {% endcomment %}
+        <a href="/explore/" class="nav-link active">Ayurvedic Plants</a>
+        <a href="/granny/" class="nav-link">Granny AI</a>
+        <a href="/quiz/" class="nav-link">Quiz</a>
+    </div>
+</div>
+
+<div class="chat-wrapper">
+    <div class="chat-container">
+
+        <div class="chat-title">🌿 Granny's Ayurvedic Remedies</div>
+
+        <div id="chatbox" class="chat-box"></div>
+
+        <input id="userInput" class="chat-input"
+               placeholder="Ask beauty or health remedy...">
+
+        <button type="button" onclick="sendMessage()" class="chat-btn">
+            Ask Remedy 🌿
+        </button>
+
+        <button onclick="startListening()" class="chat-btn">
+    🎙️ Speak to Granny
+        </button>
+
+    </div>
+</div>
+
+<script>
+
+// 🔊 TEXT TO SPEECH (Granny speaks)
+function speak(text) {
+    const speech = new SpeechSynthesisUtterance(text);
+
+    speech.rate = 0.8;   // slow warm voice
+    speech.pitch = 1.3;
+    speech.volume = 1;
+
+    const voices = window.speechSynthesis.getVoices();
+    if (voices.length > 0) {
+        speech.voice = voices.find(v => v.lang.includes("en")) || voices[0];
+    }
+
+    window.speechSynthesis.speak(speech);
+}
+
+
+// 💬 SEND MESSAGE FUNCTION
+function sendMessage() {
+    const input = document.getElementById("userInput");
+    const message = input.value.trim();
+    if (!message) return;
+
+    const chatbox = document.getElementById("chatbox");
+
+    // show user message
+    chatbox.innerHTML += "<div><b>You:</b> " + message + "</div>";
+
+    // thinking message
+    const thinkingId = "thinking-" + Date.now();
+    chatbox.innerHTML += "<div id='" + thinkingId + "'><b>Granny:</b> Granny is thinking… 🌿</div>";
+
+    chatbox.scrollTop = chatbox.scrollHeight;
+    input.value = "";
+
+    fetch("/granny-chat/?message=" + encodeURIComponent(message))
+        .then(res => res.json())
+        .then(data => {
+
+            const thinkingDiv = document.getElementById(thinkingId);
+
+            if (thinkingDiv) {
+                thinkingDiv.innerHTML = "<b>Granny:</b> " + data.reply;
+            }
+
+            chatbox.scrollTop = chatbox.scrollHeight;
+
+            // 🔊 Speak reply
+            speak(data.reply);
+        })
+        .catch(() => {
+            const thinkingDiv = document.getElementById(thinkingId);
+            if (thinkingDiv) {
+                thinkingDiv.innerHTML = "<b>Granny:</b> Connection issue 😔";
+            }
+        });
+}
+
+
+// 🎙️ VOICE INPUT (MIC)
+function startListening() {
+
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    if (!SpeechRecognition) {
+        alert("Your browser does not support voice input 😔");
+        return;
+    }
+
+    const recognition = new SpeechRecognition();
+
+    recognition.lang = "en-IN";
+    recognition.interimResults = false;
+
+    const chatbox = document.getElementById("chatbox");
+
+    chatbox.innerHTML += "<div><b>Granny:</b> Listening... 🎙️</div>";
+
+    recognition.start();
+
+    recognition.onresult = function(event) {
+        const speechText = event.results[0][0].transcript;
+
+        // show what user spoke
+        document.getElementById("userInput").value = speechText;
+
+        // auto send
+        sendMessage();
+    };
+
+    recognition.onerror = function() {
+        chatbox.innerHTML += "<div><b>Granny:</b> Couldn't hear you 😔</div>";
+    };
+}
+
+
+// ⌨️ ENTER KEY SUPPORT
+document.getElementById("userInput").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        sendMessage();
+    }
+});
+
+
+// 🔊 LOAD VOICES PROPERLY (IMPORTANT FOR CHROME)
+window.speechSynthesis.onvoiceschanged = () => {
+    window.speechSynthesis.getVoices();
+};
+
+</script> 
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ herb.name }} | Herb Veda</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #eef7ee, #f9fdf9);
+            margin: 0;
+            padding-top: 100px;
+        }
+
+        /* 🌿 NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            padding: 12px 25px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(12px);
+            border-radius: 50px;
+
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            z-index: 1000;
+        }
+
+        .nav-logo {
+            font-weight: 600;
+            color: #2e7d32;
+            font-size: 18px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            color: #2e7d32;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            background: rgba(46,125,50,0.15);
+        }
+
+        .nav-link.active {
+            background: #2e7d32;
+            color: white;
+        }
+
+        /* PAGE */
+        .page {
+            width: 80%;
+            margin: 40px auto;
+        }
+
+        .hero {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.07);
+            flex-wrap: wrap;
+        }
+
+        .hero img {
+            border-radius: 12px;
+            max-width: 260px;
+            width: 100%;
+        }
+
+        .title {
+            color: #2e7d32;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+        }
+
+        .section {
+            background: white;
+            margin-top: 30px;
+            padding: 30px;
+            border-radius: 14px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.05);
+        }
+
+        .section h2 {
+            color: #2e7d32;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            color: #444;
+            line-height: 1.8;
+        }
+
+        .model {
+            text-align: center;
+        }
+
+        .model iframe {
+            border: none;
+            border-radius: 10px;
+            max-width: 100%;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 18px;
+            background: #2e7d32;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .back:hover {
+            background: #1b5e20;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- 🌿 NAVBAR -->
+<div class="navbar">
+    <div class="nav-logo">🌿 Herbal Veda</div>
+
+    <div class="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        {% comment %} <a href="/explore/" class="nav-link active">Explore Herbs</a> {% endcomment %}
+        <a href="/explore/" class="nav-link active">Ayurvedic Plants</a>
+        <a href="/granny/" class="nav-link">Granny AI</a>
+        <a href="/quiz/" class="nav-link">Quiz</a>
+    </div>
+</div>
+
+<div class="page">
+
+    <!-- TOP -->
+    <div class="hero">
+        {% if herb.image %}
+            <img src="{{ herb.image.url }}">
+        {% else %}
+            <img src="https://via.placeholder.com/260">
+        {% endif %}
+
+        <div>
+            <div class="title">{{ herb.name }}</div>
+            <div class="badge">Ayurvedic Medicinal Herb</div>
+        </div>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="section">
+        <h2>About this Herb</h2>
+        <p>{{ herb.description }}</p>
+    </div>
+
+    <!-- USE -->
+    <div class="section">
+        <h2>Therapeutic Uses</h2>
+        <p>{{ herb.diseases }}</p>
+    </div>
+
+    <!-- MODEL -->
+    <div class="section model">
+        <h2>3D Botanical View</h2>
+        <iframe src="{{ herb.model_3d_url }}" width="650" height="420"></iframe>
+    </div>
+
+    <!-- BACK -->
+    <a href="/explore/" class="back">⬅ Back to Herbs</a>
+
+</div>
+
+</body>
+</html> 

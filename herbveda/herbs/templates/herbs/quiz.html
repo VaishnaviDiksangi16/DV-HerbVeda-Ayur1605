@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Ayurveda Quiz</title>
+
+<style>
+    .navbar {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    padding: 12px 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    z-index: 1000;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    color: #2e7d32;
+}
+
+.nav-link.active {
+    background: #2e7d32;
+    color: white;
+}
+
+body {
+    padding-top: 100px;
+}
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f4f8f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.quiz-container {
+    width: 520px;
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #2e7d32;
+}
+
+.question {
+    margin-top: 20px;
+}
+
+button {
+    margin-top: 25px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: #2e7d32;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #1b5e20;
+}
+
+.result {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 18px;
+    color: #1b5e20;
+    font-weight: 600;
+}
+</style>
+
+</head>
+<body>
+    <div class="navbar">
+    <div class="nav-logo">🌿 Herbal Veda</div>
+
+    <div class="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        {% comment %} <a href="/herbs/" class="nav-link">Explore Herbs</a> {% endcomment %}
+        <a href="/explore/" class="nav-link active">Ayurvedic Plants</a>
+        <a href="/granny/" class="nav-link">Granny AI</a>
+        <a href="/quiz/" class="nav-link">Quiz</a>
+    </div>
+</div>
+
+<div class="quiz-container">
+
+<h2>🌿 Ayurveda Knowledge Quiz</h2>
+
+<form method="post">
+{% csrf_token %}
+{% comment %} <input type="hidden" name="questions_data" value="{{ questions_data }}"> {% endcomment %}
+<input type="hidden" name="questions_data" value='{{ questions_json|safe }}'>
+
+{% for q in questions %}
+<div class="question">
+    <p><b>{{ forloop.counter }}. {{ q.question }}</b></p>
+
+    {% for option in q.options %}
+    <label>
+        <input type="radio" name="q{{ forloop.parentloop.counter0 }}" value="{{ option }}">
+        {{ option }}
+    </label><br>
+    {% endfor %}
+</div>
+{% endfor %}
+
+<button type="submit">Submit Quiz</button>
+
+</form>
+
+{% if result %}
+<div class="result">{{ result }}</div>
+{% endif %}
+
+</div>
+
+</body>
+</html>

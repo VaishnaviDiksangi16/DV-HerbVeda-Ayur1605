@@ -1,0 +1,214 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Welcome to Herb Veda</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        .navbar {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 85%;
+    padding: 12px 25px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    border-radius: 50px;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    z-index: 1000;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-link {
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    color: #f6f7f6;
+}
+
+.nav-link.active {
+    background: #2e7d32;
+    color: white;
+}
+
+body {
+    padding-top: 100px;
+}
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* 🎥 FULL SCREEN VIDEO BACKGROUND */
+        .video-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+
+        /* MAIN CONTENT */
+        .container {
+            display: flex;
+            min-height: 100vh;
+            padding: 60px;
+            box-sizing: border-box;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* LEFT SECTION */
+        .left {
+            flex: 1;
+            max-width: 50%;
+        }
+
+        .left h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+        }
+
+        .left p {
+            font-size: 18px;
+            line-height: 1.6;
+            text-shadow: 1px 1px 6px rgba(0,0,0,0.5);
+        }
+
+        /* RIGHT SECTION */
+        .right {
+            flex: 1;
+            max-width: 40%;
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        /* FEATURE CARD */
+        .feature-card {
+            background: rgba(255, 255, 255, 0);
+            color: #eaedeafd;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(242, 242, 244, 1);
+            cursor: pointer;
+            text-align: center;
+
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease-out;
+        }
+
+        .feature-card.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.25);
+        }
+
+        .feature-card h3 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .feature-card p {
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        /* MOBILE */
+        @media screen and (max-width: 900px) {
+            .container {
+                flex-direction: column;
+                padding: 30px;
+                gap: 40px;
+            }
+            .left, .right {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="navbar">
+    <div class="nav-logo">🌿 Herbal Veda</div>
+
+    <div class="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        {% comment %} <a href="/herbs/" class="nav-link">Explore Herbs</a> {% endcomment %}
+        <a href="/explore/" class="nav-link active">Ayurvedic Plants</a>
+        <a href="/granny/" class="nav-link">Granny AI</a>
+        <a href="/quiz/" class="nav-link">Quiz</a>
+    </div>
+</div>
+
+<!-- 🎥 VIDEO BACKGROUND -->
+<video autoplay muted loop class="video-bg">
+    <source src="{% static 'herbs/welcome_bg.mp4' %}" type="video/mp4">
+</video>
+
+<div class="container">
+
+    <div class="left">
+        <h1>Welcome to Herb Veda </h1>
+        <p>
+            Ayurveda is the ancient Indian system of natural healing.
+            Explore powerful herbs for hair care, skin care, and wellness.
+            Discover remedies, take quizzes, and explore Ayurvedic knowledge.
+        </p>
+    </div>
+
+    <div class="right">
+        <div class="feature-card" onclick="location.href='{% url 'quiz' %}'">
+            <h3>Take a Quiz</h3>
+            <p>Test your knowledge about Ayurvedic herbs.</p>
+        </div>
+
+        <div class="feature-card" onclick="location.href='{% url 'granny' %}'">
+            <h3>Granny's Remedies</h3>
+            <p>Get beauty and health tips from Ayurveda.</p>
+        </div>
+
+        <div class="feature-card" onclick="location.href='{% url 'herb_list' %}'">
+            <h3>Explore Herbs</h3>
+            <p>Discover detailed herb information.</p>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const cards = document.querySelectorAll('.feature-card');
+        cards.forEach((card, index) => {
+            setTimeout(() => {
+                card.classList.add('show');
+            }, index * 200);
+        });
+    });
+</script>
+
+</body>
+</html>

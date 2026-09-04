@@ -1,0 +1,163 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Herb Veda</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            padding-top: 100px;
+        }
+
+        /* 🎥 VIDEO BACKGROUND */
+        #bgVideo {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            z-index: -2;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.4);
+            z-index: -1;
+        }
+
+        /* 🌿 GLASS NAVBAR */
+        .navbar {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+
+            width: fit-content;
+            padding: 12px 30px;
+
+            display: flex;
+            gap: 25px;
+            align-items: center;
+
+            background: rgba(255,255,255,0.25);
+            backdrop-filter: blur(12px);
+            border-radius: 50px;
+
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            z-index: 1000;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 20px;
+            color: #f6f7f6;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-link:hover {
+            background: rgba(46,125,50,0.2);
+        }
+
+        .nav-link.active {
+            background: #2e7d32;
+            color: white;
+        }
+
+        /* HERO */
+        .hero {
+            text-align: center;
+            padding: 30px 20px 10px;
+        }
+
+        .hero h1 {
+            color: white;
+            font-size: 42px;
+        }
+
+        .hero p {
+            color: #eee;
+        }
+
+        /* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            padding: 20px 40px;
+        }
+
+        /* CARD */
+        .card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        .card img {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .card a {
+            text-decoration: none;
+            color: white;
+            font-weight: 600;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- 🎥 VIDEO -->
+<video autoplay muted loop playsinline id="bgVideo">
+    <source src="{% static 'herbs/explore_bg.mp4' %}" type="video/mp4">
+</video>
+
+<!-- 🌿 NAVBAR -->
+<div class="navbar">
+    <a href="/" class="nav-link">Home</a>
+    <a href="/explore/" class="nav-link active">Ayurvedic Plants</a>
+    <a href="/granny/" class="nav-link">Granny AI</a>
+    <a href="/quiz/" class="nav-link">Quiz</a>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <h1>Herb Veda</h1>
+    <p>Explore Ayurvedic medicinal herbs with modern botanical knowledge</p>
+</div>
+
+<!-- GRID -->
+<div class="grid">
+{% for herb in herbs %}
+    <div class="card">
+        <img src="{{ herb.image.url }}">
+        <h3>
+            <a href="/herb/{{ herb.id }}/">{{ herb.name }}</a>
+        </h3>
+    </div>
+{% endfor %}
+</div>
+
+</body>
+</html>
