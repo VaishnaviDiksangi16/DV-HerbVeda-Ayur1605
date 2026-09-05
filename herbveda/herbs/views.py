@@ -162,7 +162,7 @@ Keep it short and clear.
 """,
                 "stream": False
             },
-            timeout=90
+            timeout=(10, 120) 
         )
 
         data = response.json()
