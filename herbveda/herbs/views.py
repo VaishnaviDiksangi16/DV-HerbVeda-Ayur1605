@@ -152,7 +152,7 @@ def granny_chat(request):
 
     try:
         response = requests.post(
-            "http://localhost:11434/api/generate",
+             "https://provinces-specialties-breach-aged.trycloudflare.com/api/generate",
             json={
                 "model": "llama3",
                 "prompt": f"""
